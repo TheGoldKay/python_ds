@@ -1,7 +1,14 @@
-from transformers import pipeline
+import requests
 
-# Example: Using the WizardCoder-Python-34B-V1.0 model
-wizard_coder = pipeline("text-generation", model="WizardLM/WizardCoder-Python-34B-V1.0")
-code_example = wizard_coder("Write a Python function to calculate the factorial of a number.")
-print(code_example[0]["code"])
+API_URL = "https://api-inference.huggingface.co/models/WizardLM/WizardCoder-Python-34B-V1.0"
+headers = {"Authorization": "Bearer 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"}
 
+def query(payload):
+	response = requests.post(API_URL, headers=headers, json=payload)
+	return response.json()
+	
+output = query({
+	"inputs": "Can you please let us know more details about your ",
+})
+
+print(output)
